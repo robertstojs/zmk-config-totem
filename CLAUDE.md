@@ -56,10 +56,10 @@ west init -l app/
 west update
 
 # Build left half
-west build -s app -b seeeduino_xiao_ble -- -DSHIELD=totem_left -DZMK_CONFIG="/path/to/zmk-config-robert/config"
+west build -s app -b xiao_ble -- -DSHIELD=totem_left -DZMK_CONFIG="/path/to/zmk-config-robert/config"
 
 # Build right half
-west build -s app -b seeeduino_xiao_ble -- -DSHIELD=totem_right -DZMK_CONFIG="/path/to/zmk-config-robert/config"
+west build -s app -b xiao_ble -- -DSHIELD=totem_right -DZMK_CONFIG="/path/to/zmk-config-robert/config"
 ```
 
 ## Flashing Firmware
@@ -69,7 +69,7 @@ west build -s app -b seeeduino_xiao_ble -- -DSHIELD=totem_right -DZMK_CONFIG="/p
 3. Copy the `.uf2` file to the drive
 4. The board will automatically reboot
 
-Flash `totem_left-seeeduino_xiao_ble-zmk.uf2` to the left half and `totem_right-seeeduino_xiao_ble-zmk.uf2` to the right half.
+Flash `totem_left-xiao_ble-zmk.uf2` to the left half and `totem_right-xiao_ble-zmk.uf2` to the right half.
 
 ## Keymap Editing
 
