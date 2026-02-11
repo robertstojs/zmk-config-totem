@@ -93,11 +93,11 @@
             bindings = <&kp ESC>;
         };
 
-        // N+E+I → sticky Ctrl (right home row roll)
-        combo_nei_ctrl {
+        // N+E+I → sticky Cmd (right home row roll, Mac primary modifier)
+        combo_nei_cmd {
             timeout-ms = <50>;
             key-positions = <16 17 18>;
-            bindings = <&sk LCTRL>;
+            bindings = <&sk LGUI>;
         };
 
         // Comma+Dot → Semicolon
@@ -154,14 +154,14 @@
 //       |  A  |  R  |  S  |  T  |  G  |         |  M  |  N  |  E  |  I  |  O  |
 // |ESC  |  Z  |  X  |  C  |  D  |  V  |         |  K  |  H  |  ,  |  .  |  /  | ENT |
 // |CTRL |                                                                     |     |
-//                   | FUN |SPC  | NUM |         |SHIFT| NAV | SYM |
-//                   |     |NAV  |     |         | (os)|     |     |
+//                   | FUN | NUM |SPC  |         |SHIFT| NAV | SYM |
+//                   |     |     |NAV  |         | (os)|     |     |
 // Note: O key is layer-tap for MEDIA (hold O = MEDIA, tap O = O)
             bindings = <
             &kp Q           &kp W       &kp F       &kp P       &kp B           &kp J       &kp L       &kp U       &kp Y       &kp SEMI
             &kp A           &kp R       &kp S       &kp T       &kp G           &kp M       &kp N       &kp E       &kp I       &lt MEDIA O
  &mt LCTRL ESC &kp Z        &kp X       &kp C       &kp D       &kp V           &kp K       &kp H       &kp COMMA   &kp DOT     &kp FSLH    &kp RET
-                                    &mo FUN     &ltr NAV SPACE &mo NUM         &sk LSHFT   &mo NAV     &mo SYM
+                                    &mo FUN     &mo NUM     &ltr NAV SPACE      &sk LSHFT   &mo NAV     &mo SYM
             >;
         };
 
