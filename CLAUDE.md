@@ -227,9 +227,9 @@ If halves won't connect to each other:
 |-------|-------|------------|---------|
 | BASE | 0 | Default | Colemak DH-M |
 | FUN | 1 | Hold left thumb outer | Numbers (left), Function keys (right) |
-| NAV | 2 | Hold Space or middle right thumb | Mac navigation, window/tab management |
+| NAV | 2 | Hold Space (left thumb) or middle right thumb | Mac navigation, window/tab management |
 | SYM | 3 | Hold right thumb inner | Symbols and punctuation |
-| NUM | 4 | Hold left thumb inner | Numpad (right), arrows (left) |
+| NUM | 4 | Hold left thumb middle | Numpad (right), arrows (left) |
 | MEDIA | 5 | Hold O key | Mouse, media, volume, Bluetooth |
 | NAVWIN | 6 | One-shot from NAV (G position) | Alt+key shortcuts for Raycast window switching |
 | NAVLH | 7 | Toggle from FUN | Left-hand navigation for one-handed use |
@@ -240,7 +240,7 @@ If halves won't connect to each other:
         Q    W    F    P    B          J    L    U    Y    ;
         A    R    S    T    G          M    N    E    I    O*
 ESC/CTL Z    X    C    D    V          K    H    ,    .    /   ENT
-                FUN  SPC* NUM        SHFT  NAV  SYM
+                FUN  NUM  SPC*       SHFT  NAV  SYM
 
 * O = tap for O, hold for MEDIA layer
 * SPC = tap for Space, hold for NAV layer
@@ -304,7 +304,7 @@ Legend:
 - BOOT = Bootloader mode (for flashing)
 - BT0-4 = Bluetooth profile select
 - BTCLR = Clear current BT profile
-- MS_U/D/L/R = Mouse movement
+- MS_U/D/L/R = Inertia mouse movement (QMK-style momentum)
 - SCRL↑/↓ = Mouse scroll
 - LCLK/RCLK/MCLK = Mouse buttons
 ```
@@ -340,7 +340,7 @@ TOG = Toggle back to BASE layer
 | Combo | Keys | Output | Notes |
 |-------|------|--------|-------|
 | Q+W | 0, 1 | Escape | Top left corner |
-| N+E+I | 16, 17, 18 | Sticky Ctrl | Right home row roll |
+| N+E+I | 16, 17, 18 | Sticky Cmd | Right home row roll |
 | Comma+Dot | 28, 29 | Semicolon | |
 | H+Comma | 27, 28 | Hyphen | |
 | X+D | 22, 24 | Sticky Ctrl | Left hand |
