@@ -7,10 +7,12 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 
-// Increase mouse speed (default: 600) and scroll speed (default: 10)
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1500
+// Scroll speed (default: 10)
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 #include <dt-bindings/zmk/pointing.h>
+
+// Inertia mouse movement (QMK-style)
+#include <behaviors/inertia.dtsi>
 
 #define BASE   0
 #define FUN    1
@@ -28,16 +30,44 @@
     tapping-term-ms = <170>;
 };
 
-// Mouse movement with kinetic-style acceleration (quadratic curve)
-&mmv {
-    time-to-max-speed-ms = <400>;
-    acceleration-exponent = <2>;
-};
-
 // Scroll with acceleration
 &msc {
     time-to-max-speed-ms = <300>;
     acceleration-exponent = <2>;
+};
+
+// Inertia mouse settings (matching QMK config)
+&mmi_up {
+    delay-ms = <0>;
+    interval-ms = <8>;
+    time-to-max = <64>;
+    max-speed = <40>;
+    friction = <1>;
+    move-delta = <1>;
+};
+&mmi_down {
+    delay-ms = <0>;
+    interval-ms = <8>;
+    time-to-max = <64>;
+    max-speed = <40>;
+    friction = <1>;
+    move-delta = <1>;
+};
+&mmi_left {
+    delay-ms = <0>;
+    interval-ms = <8>;
+    time-to-max = <64>;
+    max-speed = <40>;
+    friction = <1>;
+    move-delta = <1>;
+};
+&mmi_right {
+    delay-ms = <0>;
+    interval-ms = <8>;
+    time-to-max = <64>;
+    max-speed = <40>;
+    friction = <1>;
+    move-delta = <1>;
 };
 
 / {
@@ -195,15 +225,16 @@
         media_layer {
 // -----------------------------------------------------------------------------------------
 // Based on QMK _MDIA layer with Bluetooth replacing RGB
+// Uses inertia mouse movement (QMK-style momentum/glide)
 //       | BOOT| BT0 | BT1 | BT2 | BT3 |         |SCRL_U|PREV |MS_UP|NEXT |PSCRN|
 //       | GUI | ALT | CTRL| SHFT| BT4 |         |SCRL_D|MS_L |MS_DN|MS_R |BRI+ |
 // |     |BTCLR|     |     |     |     |         | MUTE | VOL-| PLAY| VOL+|BRI- |     |
 //                   |     |     |     |         | LCLK | RCLK| MCLK|
             bindings = <
-            &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3    &msc SCRL_UP   &kp C_PREV     &mmv MOVE_UP   &kp C_NEXT     &kp PSCRN
-            &sk LGUI    &sk LALT     &sk LCTRL    &sk LSHFT    &bt BT_SEL 4    &msc SCRL_DOWN &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &kp C_BRI_UP
-    &trans  &bt BT_CLR  &trans       &trans       &trans       &trans          &kp C_MUTE     &kp C_VOL_DN   &kp C_PP       &kp C_VOL_UP   &kp C_BRI_DN &trans
-                                     &trans       &trans       &trans          &mkp LCLK      &mkp RCLK      &mkp MCLK
+            &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3    &msc SCRL_UP   &kp C_PREV  &mmi_up    &kp C_NEXT  &kp PSCRN
+            &sk LGUI    &sk LALT     &sk LCTRL    &sk LSHFT    &bt BT_SEL 4    &msc SCRL_DOWN &mmi_left   &mmi_down  &mmi_right  &kp C_BRI_UP
+    &trans  &bt BT_CLR  &trans       &trans       &trans       &trans          &kp C_MUTE     &kp C_VOL_DN &kp C_PP  &kp C_VOL_UP &kp C_BRI_DN &trans
+                                     &trans       &trans       &trans          &mkp LCLK      &mkp RCLK   &mkp MCLK
             >;
         };
 
