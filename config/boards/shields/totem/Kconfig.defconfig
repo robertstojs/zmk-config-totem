@@ -1,0 +1,40 @@
+# Copyright (c) 2022 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+# Standard left half (central in BLE mode)
+if SHIELD_TOTEM_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "TOTEM"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+# Left half as peripheral (for dongle mode)
+if SHIELD_TOTEM_LEFT_PERIPHERAL
+
+config ZMK_SPLIT
+    default y
+
+endif
+
+# Dongle (USB central)
+if SHIELD_TOTEM_DONGLE
+
+config ZMK_KEYBOARD_NAME
+    default "TOTEM"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+# Enable split for left, right, and dongle
+if SHIELD_TOTEM_LEFT || SHIELD_TOTEM_RIGHT || SHIELD_TOTEM_DONGLE
+
+config ZMK_SPLIT
+    default y
+
+endif
