@@ -2,6 +2,10 @@
 
 This is a ZMK firmware configuration for the TOTEM split keyboard by GEIGEIGEIST. The TOTEM is a 38-key column-staggered split keyboard designed for the Seeeduino XIAO BLE controller.
 
+## Important
+
+The layer diagrams, combo table, and activation descriptions in this file must always be checked against `config/totem.keymap` before relying on them. If they differ, the keymap is the source of truth — update this file to match.
+
 ## Git Commits
 
 Use semantic commits with a brief summary only. No description body, no signatures.
