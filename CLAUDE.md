@@ -230,13 +230,12 @@ If halves won't connect to each other:
 | Layer | Index | Activation | Purpose |
 |-------|-------|------------|---------|
 | BASE | 0 | Default | Colemak DH-M |
-| FUN | 1 | Hold left thumb outer | Numbers (left), Function keys (right) |
-| NAV | 2 | Hold Space (left thumb) or middle right thumb | Mac navigation, window/tab management |
+| FUN | 1 | Hold left thumb outer | Text editing (Mac shortcuts) + F-keys |
+| NAV | 2 | Hold Space (left thumb) or middle right thumb | Aerospace tiling WM (workspaces, focus, window mgmt) |
 | SYM | 3 | Hold right thumb inner | Symbols and punctuation |
 | NUM | 4 | Hold left thumb middle | Numpad (right), arrows (left) |
 | MEDIA | 5 | Hold O key | Mouse, media, volume, Bluetooth |
-| NAVWIN | 6 | One-shot from NAV (G position) | Alt+key shortcuts for Raycast window switching |
-| NAVLH | 7 | Toggle from FUN | Left-hand navigation for one-handed use |
+| NAVLH | 6 | Toggle from FUN | Left-hand navigation for one-handed use |
 
 ### BASE Layer (Colemak DH-M)
 
@@ -250,33 +249,50 @@ ESC/CTL Z    X    C    D    V          K    H    ,    .    /   ENT
 * SPC = tap for Space, hold for NAV layer
 ```
 
-### FUN Layer (Numbers + Function Keys)
+### FUN Layer (Text Editing + F-keys)
 
 ```
-        1    2    3    4    5         NAVLH F7   F8   F9   F12
-       GUI  ALT  CTL  SHF   _         PSCR  F4   F5   F6   F11
-  _     6    7    8    9    0         PAUS  F1   F2   F3   F10   _
-                  _    _    _           _  CAPS   _
-```
-
-### NAV Layer (Mac Navigation)
-
-```
-       SW_W PV_T CL_W NX_T SW_A        PGUP HOME  UP  END  DWRD
-       GUI  ALT  CTL  SHF NAVWN        PGDN LEFT DOWN RGHT  SPC
-  _    UNDO CUT  COPY PSTE REDO        ESC  BSPC ENT  TAB  DEL   _
-                MKLNK  _  NWTAB        ENT  BSPC  _
+       SW_W PV_T CL_W NX_T SW_A        NAVLH F7   F8   F9   F12
+       GUI  ALT  CTL  SHF  SELA        PSCR  F4   F5   F6   F11
+  _    UNDO CUT  COPY PSTE REDO        PAUS  F1   F2   F3   F10  MEDIA
+                MKLNK BSPC NWTAB         _  CAPS   _
 
 Legend:
 - SW_W = Switch Window (Cmd+`)
 - PV_T/NX_T = Prev/Next Tab (Cmd+Shift+[/])
 - CL_W = Close Window (Cmd+W)
 - SW_A = Switch App (Cmd+Tab)
-- NAVWN = One-shot NAVWIN layer
-- DWRD = Delete Word (Alt+Backspace)
+- SELA = Select All (Cmd+A)
 - MKLNK = Make Link (Cmd+K)
 - NWTAB = New Tab (Cmd+T)
 - UNDO/CUT/COPY/PSTE/REDO = Cmd+Z/X/C/V/Shift+Z
+```
+
+### NAV Layer (Aerospace Tiling WM)
+
+```
+       A+TAB A+D  A+E  A+F  A+W         ___  A+7  A+8  A+9  DEL
+       A+H←  A+J↓ A+K↑ A+L→ A+RET       ___  A+4  A+5  A+6  BSPC
+  _    A+SC  A+V  A+B  A+S  A+R         ___  A+1  A+2  A+3  ESC  MEDIA
+                  A+SF A+SB  _          SHFT BSPC ENT
+
+Legend:
+- A+key = Alt+key (Aerospace shortcut)
+- A+TAB = Workspace back/forth
+- A+D = App launcher
+- A+E = Layout toggle
+- A+F = Fullscreen
+- A+W = Ultrawide
+- A+H/J/K/L = Focus left/down/up/right
+- A+RET = Terminal
+- A+SC = Alt+Shift+C (close window)
+- A+V/B = Join down/right
+- A+S = Accordion layout
+- A+R = Resize mode (release NAV to use h/j/k/l/esc)
+- A+SF = Alt+Shift+Space (float toggle)
+- A+SB = Alt+Shift+B (balance sizes)
+- A+1–9 = Switch workspace (hold SHFT to move window)
+- SHFT on right thumb enables move: SHFT+A+H/J/K/L = move window, SHFT+A+N = move to workspace
 ```
 
 ### SYM Layer (Symbols)
@@ -300,30 +316,19 @@ Legend:
 ### MEDIA Layer (Mouse + Media + Bluetooth)
 
 ```
-       BOOT BT0  BT1  BT2  BT3        SCRL↑ PREV MS_U NEXT PSCR
-       GUI  ALT  CTL  SHF  BT4        SCRL↓ MS_L MS_D MS_R BRI+
-  _   BTCLR  _    _    _    _         MUTE VOL- PLAY VOL+ BRI-  _
-                  _    _    _         LCLK RCLK MCLK
+       BOOT BT0  BT1  BT2  BT3        SCRL↑ LCLK MS_U RCLK MCLK
+       GUI  ALT  CTL  SHF  BT4        SCRL↓ MS_L MS_D MS_R PSCR
+  _   BTCLR  _    _    _    _         MUTE VOL- VOL+ BRI- BRI+  _
+                  _    _    _         PREV PLAY NEXT
 
 - BOOT = Bootloader mode (for flashing)
 - BT0-4 = Bluetooth profile select
 - BTCLR = Clear current BT profile
 - MS_U/D/L/R = Inertia mouse movement (QMK-style momentum)
 - SCRL↑/↓ = Mouse scroll
-- LCLK/RCLK/MCLK = Mouse buttons
-```
-
-### NAVWIN Layer (Window Switching)
-
-One-shot layer for Raycast-style Alt+key window switching. Enter from NAV layer by tapping G position, then press a key to send Alt+that key.
-
-```
-       A+Q  A+W  A+F  A+P  A+B        A+J  A+7  A+8  A+9  A+'
-       GUI  ALT  CTL  SHF   _         A+M  A+4  A+5  A+6  A+O
-  _    A+Z  A+X  A+C  A+D  A+V        A+K  A+1  A+2  A+3  A+/   _
-                  _    _    _           _    _    _
-
-A+key = Alt+key (for Raycast window shortcuts)
+- LCLK/RCLK flank MS_U for spatial intuitiveness
+- MCLK = Middle click
+- PREV/PLAY/NEXT on thumb cluster
 ```
 
 ### NAVLH Layer (Left-Hand Navigation)
@@ -350,7 +355,6 @@ TOG = Toggle back to BASE layer
 | X+D | 22, 24 | Sticky Ctrl | Left hand |
 | D+H | 24, 27 | Sticky Ctrl | Cross-hand |
 | Z+D | 21, 24 | Tab | |
-| W+P (NAV) | 1, 3 | Select All (Cmd+A) | Only active in NAV layer |
 
 ## Resources
 
