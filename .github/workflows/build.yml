@@ -21,6 +21,14 @@ jobs:
           name: firmware
           path: firmware
 
+      - name: Keep only short-named firmware files
+        run: |
+          cd firmware
+          for f in *-xiao_ble*-zmk.uf2; do
+            short=$(echo "$f" | sed 's/-xiao_ble[^.]*//')
+            [ -f "$short" ] && rm "$f"
+          done
+
       - name: Commit firmware
         run: |
           git config user.name "github-actions"
