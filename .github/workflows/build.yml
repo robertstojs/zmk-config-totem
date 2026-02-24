@@ -3,3 +3,26 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+
+  commit-firmware:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware
+
+      - name: Commit firmware
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add firmware/
+          git diff --cached --quiet && exit 0
+          git commit -m "ci: update firmware"
+          git push
