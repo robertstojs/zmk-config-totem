@@ -1,17 +1,13 @@
 # ZMK Firmware Build Makefile for Totem Keyboard
 
 # Configuration
-BOARD := xiao_ble
-TOOLCHAIN_VARIANT := gnuarmemb
-TOOLCHAIN_PATH := /Applications/ArmGNUToolchain/14.3.rel1/arm-none-eabi
+BOARD := xiao_ble//zmk
 ZMK_DIR := zmk
 ZMK_CONFIG := $(shell pwd)/config
 FIRMWARE_DIR := firmware
 
 # Build flags
-BUILD_FLAGS := -DZEPHYR_TOOLCHAIN_VARIANT=$(TOOLCHAIN_VARIANT) \
-               -DGNUARMEMB_TOOLCHAIN_PATH=$(TOOLCHAIN_PATH) \
-               -DZMK_CONFIG=$(ZMK_CONFIG)
+BUILD_FLAGS := -DZMK_CONFIG=$(ZMK_CONFIG)
 
 .PHONY: all ble dongle clean setup help
 
@@ -58,12 +54,8 @@ dongle:
 # === UTILITIES ===
 setup:
 	@echo "Setting up ZMK build environment..."
-	@if [ ! -d "$(ZMK_DIR)" ]; then \
-		echo "Cloning ZMK..."; \
-		git clone https://github.com/zmkfirmware/zmk.git $(ZMK_DIR); \
-	fi
-	@cd $(ZMK_DIR) && west init -l app/ 2>/dev/null || true
-	@cd $(ZMK_DIR) && west update
+	west init -l config/ 2>/dev/null || true
+	west update
 	@echo "✓ Setup complete!"
 
 clean:

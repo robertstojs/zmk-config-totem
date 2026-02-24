@@ -1,0 +1,8 @@
+# West workspace (local build)
+.west/
+zmk/
+zephyr/
+modules/
+optional/
+zmk-auto-layer/
+zmk-inertia/
