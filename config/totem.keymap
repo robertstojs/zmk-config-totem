@@ -172,16 +172,16 @@
 
         nav_layer {
 // -----------------------------------------------------------------------------------------
-// Mac-style navigation with window/tab management
-//       |SWWIN|PVTAB|CLWIN|NXTAB|SWAPP|         | PGUP| HOME|  UP | END |DWRD |
-//       | GUI | ALT | CTRL| SHFT|NAVWN|         | PGDN| LEFT| DOWN| RGHT| SPC |
-// |     | UNDO| CUT | COPY| PSTE| REDO|         | ESC | BSPC| ENT | TAB | DEL |     |
-//                   |MKLNK|     |NWTAB|         | ENT | BSPC|     |
+// Aerospace tiling WM — focus on left home, workspaces on right numpad
+//       |A+TAB| A+D | A+E | A+F | A+W |         |     | A+7 | A+8 | A+9 | DEL |
+//       | A+H | A+J | A+K | A+L |A+RET|         |     | A+4 | A+5 | A+6 | BSPC|
+// |     |A+S+C| A+V | A+B | A+S | A+R |         |     | A+1 | A+2 | A+3 | ESC |MEDIA|
+//                   |A+S+S|A+S+B|     |         |SHIFT| BSPC| ENT |
             bindings = <
-            &kp LG(GRAVE) &kp LG(LS(LBKT)) &kp LG(W) &kp LG(LS(RBKT)) &kp LG(TAB)    &kp PG_UP   &kp HOME    &kp UP      &kp END     &kp LA(BSPC)
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &trans          &kp PG_DN   &kp LEFT    &kp DOWN    &kp RIGHT   &kp SPACE
-    &trans  &kp LG(Z)   &kp LG(X)   &kp LG(C)   &kp LG(V)   &kp LG(LS(Z))   &kp ESC     &kp BSPC    &kp RET     &kp TAB     &kp DEL     &mo MEDIA
-                                    &kp LG(K)   &trans      &kp LG(T)       &kp RET     &kp BSPC    &trans
+            &kp LA(TAB) &kp LA(D)   &kp LA(E)   &kp LA(F)   &kp LA(W)       &none       &kp LA(N7)  &kp LA(N8)  &kp LA(N9)  &kp DEL
+            &kp LA(H)   &kp LA(J)   &kp LA(K)   &kp LA(L)   &kp LA(RET)     &none       &kp LA(N4)  &kp LA(N5)  &kp LA(N6)  &kp BSPC
+    &trans  &kp LA(LS(C)) &kp LA(V) &kp LA(B)   &kp LA(S)   &kp LA(R)       &none       &kp LA(N1)  &kp LA(N2)  &kp LA(N3)  &kp ESC     &mo MEDIA
+                                    &kp LA(LS(SPACE)) &kp LA(LS(B)) &trans    &kp LSHFT   &kp BSPC    &kp RET
             >;
         };
 
