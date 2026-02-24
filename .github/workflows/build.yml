@@ -21,12 +21,12 @@ jobs:
           name: firmware
           path: firmware
 
-      - name: Keep only short-named firmware files
+      - name: Rename firmware to short names
         run: |
           cd firmware
-          for f in *-xiao_ble*-zmk.uf2; do
+          for f in *.uf2; do
             short=$(echo "$f" | sed 's/-xiao_ble[^.]*//')
-            [ -f "$short" ] && rm "$f"
+            [ "$f" != "$short" ] && mv "$f" "$short"
           done
 
       - name: Commit firmware
