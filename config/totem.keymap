@@ -20,8 +20,7 @@
 #define SYM    3
 #define NUM    4
 #define MEDIA  5
-#define NAVWIN 6
-#define NAVLH  7
+#define NAVLH  6
 
 &mt {
     quick-tap-ms = <100>;
@@ -135,14 +134,6 @@
             bindings = <&kp TAB>;
         };
 
-        // PRV_TAB + NXT_TAB → Select All (only in NAV layer)
-        // Positions 1 and 3 are PRV_TAB and NXT_TAB in NAV layer
-        combo_select_all {
-            timeout-ms = <50>;
-            key-positions = <1 3>;
-            bindings = <&kp LG(A)>;
-            layers = <NAV>;
-        };
     };
 
     keymap {
@@ -188,7 +179,7 @@
 //                   |MKLNK|     |NWTAB|         | ENT | BSPC|     |
             bindings = <
             &kp LG(GRAVE) &kp LG(LS(LBKT)) &kp LG(W) &kp LG(LS(RBKT)) &kp LG(TAB)    &kp PG_UP   &kp HOME    &kp UP      &kp END     &kp LA(BSPC)
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &sl NAVWIN      &kp PG_DN   &kp LEFT    &kp DOWN    &kp RIGHT   &kp SPACE
+            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &trans          &kp PG_DN   &kp LEFT    &kp DOWN    &kp RIGHT   &kp SPACE
     &trans  &kp LG(Z)   &kp LG(X)   &kp LG(C)   &kp LG(V)   &kp LG(LS(Z))   &kp ESC     &kp BSPC    &kp RET     &kp TAB     &kp DEL     &mo MEDIA
                                     &kp LG(K)   &trans      &kp LG(T)       &kp RET     &kp BSPC    &trans
             >;
@@ -235,22 +226,6 @@
             &sk LGUI    &sk LALT     &sk LCTRL    &sk LSHFT    &bt BT_SEL 4    &msc SCRL_DOWN &mmi_left   &mmi_down  &mmi_right  &kp C_BRI_UP
     &trans  &bt BT_CLR  &trans       &trans       &trans       &trans          &kp C_MUTE     &kp C_VOL_DN &kp C_PP  &kp C_VOL_UP &kp C_BRI_DN &trans
                                      &trans       &trans       &trans          &mkp LCLK      &mkp RCLK   &mkp MCLK
-            >;
-        };
-
-        navwin_layer {
-// -----------------------------------------------------------------------------------------
-// One-shot layer for switching to specific windows/apps via Alt+key (Raycast shortcuts)
-// Enter momentarily from NAV layer to switch apps, then return to NAV
-//       | A+Q | A+W | A+F | A+P | A+B |         | A+J | A+7 | A+8 | A+9 | A+' |
-//       | GUI | ALT | CTRL| SHFT|     |         | A+M | A+4 | A+5 | A+6 | A+O |
-// |     | A+Z | A+X | A+C | A+D | A+V |         | A+K | A+1 | A+2 | A+3 | A+/ |     |
-//                   |     |     |     |         |     |     |     |
-            bindings = <
-            &kp LA(Q)   &kp LA(W)   &kp LA(F)   &kp LA(P)   &kp LA(B)       &kp LA(J)   &kp LA(N7)  &kp LA(N8)  &kp LA(N9)  &kp LA(SQT)
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &trans          &kp LA(M)   &kp LA(N4)  &kp LA(N5)  &kp LA(N6)  &kp LA(O)
-    &trans  &kp LA(Z)   &kp LA(X)   &kp LA(C)   &kp LA(D)   &kp LA(V)       &kp LA(K)   &kp LA(N1)  &kp LA(N2)  &kp LA(N3)  &kp LA(FSLH) &trans
-                                    &trans      &trans      &trans          &trans      &trans      &trans
             >;
         };
 
