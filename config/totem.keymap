@@ -20,7 +20,6 @@
 #define SYM    3
 #define NUM    4
 #define MEDIA  5
-#define NAVLH  6
 
 &mt {
     quick-tap-ms = <100>;
@@ -49,107 +48,48 @@
         };
     };
 
-    combos {
-        compatible = "zmk,combos";
-
-        // Q+W → Escape (existing)
-        combo_esc {
-            timeout-ms = <50>;
-            key-positions = <0 1>;
-            bindings = <&kp ESC>;
-        };
-
-        // N+E+I → sticky Cmd (right home row roll, Mac primary modifier)
-        combo_nei_cmd {
-            timeout-ms = <50>;
-            key-positions = <16 17 18>;
-            bindings = <&sk LGUI>;
-        };
-
-        // Comma+Dot → Semicolon
-        combo_semicolon {
-            timeout-ms = <50>;
-            key-positions = <28 29>;
-            bindings = <&kp SEMI>;
-        };
-
-        // H+Comma → Hyphen/Minus
-        combo_hyphen {
-            timeout-ms = <50>;
-            key-positions = <27 28>;
-            bindings = <&kp MINUS>;
-        };
-
-        // X+D → sticky Ctrl (left hand)
-        combo_xd_ctrl {
-            timeout-ms = <50>;
-            key-positions = <22 24>;
-            bindings = <&sk LCTRL>;
-        };
-
-        // D+H → sticky Ctrl (cross-hand)
-        combo_dh_ctrl {
-            timeout-ms = <50>;
-            key-positions = <24 27>;
-            bindings = <&sk LCTRL>;
-        };
-
-        // Z+D → Tab
-        combo_tab {
-            timeout-ms = <50>;
-            key-positions = <21 24>;
-            bindings = <&kp TAB>;
-        };
-
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
         base_layer {
 // -----------------------------------------------------------------------------------------
 //       |  Q  |  W  |  F  |  P  |  B  |         |  J  |  L  |  U  |  Y  |  ;  |
-//       |  A  |  R  |  S  |  T  |  G  |         |  M  |  N  |  E  |  I  |  O  |
-// |ESC  |  Z  |  X  |  C  |  D  |  V  |         |  K  |  H  |  ,  |  .  |  /  | ENT |
-// |CTRL |                                                                     |     |
-//                   | FUN | NUM |SPC  |         |SHIFT| NAV | SYM |
-//                   |     |     |NAV  |         | (os)|     |     |
-// Note: O key is layer-tap for MEDIA (hold O = MEDIA, tap O = O)
+//       |A/GUI|R/ALT|S/CTL|T/SHF|  G  |         |  M  |N/SHF|E/CTL|I/ALT|O/GUI|
+// |     |  Z  |  X  |  C  |  D  |  V  |         |  K  |  H  |  ,  |  .  |  /  |     |
+//                   |ESC/M|TAB/F|SPC/N|         |ENT/S|BSP/N| DEL |
             bindings = <
-            &kp Q           &kp W       &kp F       &kp P       &kp B           &kp J       &kp L       &kp U       &kp Y       &kp SEMI
-            &kp A           &kp R       &kp S       &kp T       &kp G           &kp M       &kp N       &kp E       &kp I       &lt MEDIA O
- &mt LCTRL ESC &kp Z        &kp X       &kp C       &kp D       &kp V           &kp K       &kp H       &kp COMMA   &kp DOT     &kp FSLH    &kp RET
-                                    &mo FUN     &mo NUM     &ltr NAV SPACE      &mt LSHFT RET &mo NAV   &mo SYM
+            &kp Q       &kp W       &kp F       &kp P       &kp B           &kp J       &kp L       &kp U       &kp Y       &kp SEMI
+            &mt LGUI A  &mt LALT R  &mt LCTRL S &mt LSHFT T &kp G           &kp M       &mt RSHFT N &mt RCTRL E &mt RALT I  &mt RGUI O
+    &none   &kp Z       &kp X       &kp C       &kp D       &kp V           &kp K       &kp H       &kp COMMA   &kp DOT     &kp FSLH    &none
+                                    &lt MEDIA ESC &lt FUN TAB &ltr NAV SPACE &lt SYM RET &ltr NUM BSPC &kp DEL
             >;
         };
 
         fun_layer {
 // -----------------------------------------------------------------------------------------
-// Text editing (Mac shortcuts) + F-keys
-//       |SWWIN|PVTAB|CLWIN|NXTAB|SWAPP|         |NAVLH|  F7 |  F8 |  F9 | F12 |
-//       | GUI | ALT | CTRL| SHFT|SELAL|         |PSCRN |  F4 |  F5 |  F6 | F11 |
-// |     | UNDO| CUT | COPY| PSTE| REDO|         | PAUS|  F1 |  F2 |  F3 | F10 |MEDIA|
-//                   |MKLNK| BSPC|NWTAB|         |     | CAPS|     |
+//       |SW_WN|PV_TB|CL_WN|NX_TB|SW_AP|         | F12 | F7  | F8  | F9  |     |
+//       | GUI | ALT | CTL | SHF | TAB |         | F11 | F4  | F5  | F6  |PSCRN|
+// |     |UNDO | CUT |COPY |PASTE|REDO |         | F10 | F1  | F2  | F3  |PAUSE|     |
+//                   |     |(hld)|     |         |     |CAPS |     |
             bindings = <
-            &kp LG(GRAVE) &kp LG(LS(LBKT)) &kp LG(W) &kp LG(LS(RBKT)) &kp LG(TAB)  &tog NAVLH  &kp F7      &kp F8      &kp F9      &kp F12
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &kp LG(A)       &kp PSCRN   &kp F4      &kp F5      &kp F6      &kp F11
-    &trans  &kp LG(Z)   &kp LG(X)   &kp LG(C)   &kp LG(V)   &kp LG(LS(Z))   &kp PAUSE_BREAK &kp F1 &kp F2     &kp F3      &kp F10     &mo MEDIA
-                                    &kp LG(K)   &kp BSPC    &kp LG(T)       &trans      &kp CAPS    &trans
+            &kp LG(GRAVE) &kp LG(LS(LBKT)) &kp LG(W) &kp LG(LS(RBKT)) &kp LG(TAB)  &kp F12     &kp F7      &kp F8      &kp F9      &none
+            &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &kp TAB         &kp F11     &kp F4      &kp F5      &kp F6      &kp PSCRN
+    &none   &kp LG(Z)   &kp LG(X)   &kp LG(C)   &kp LG(V)   &kp LG(LS(Z))  &kp F10     &kp F1      &kp F2      &kp F3      &kp PAUSE_BREAK &none
+                                    &trans      &trans      &trans          &trans      &kp CAPS    &trans
             >;
         };
 
         nav_layer {
 // -----------------------------------------------------------------------------------------
-// Aerospace tiling WM — focus on left home, workspaces on right numpad
-//       |A+TAB| A+D | A+E | A+F | A+W |         |     | A+7 | A+8 | A+9 | DEL |
-//       | A+H | A+J | A+K | A+L |A+RET|         |     | A+4 | A+5 | A+6 | BSPC|
-// |     |A+S+C| A+V | A+B | A+S | A+R |         |     | A+1 | A+2 | A+3 | ESC |MEDIA|
-//                   |A+S+S|SHIFT|     |         |SHIFT| BSPC| ENT |
+//       |A+TAB| A+D |A+RET| A+F | A+W |         | DEL | A+7 | A+8 | A+9 |     |
+//       | A+H | A+J | A+K | A+L | A+E |         |BSPC | A+4 | A+5 | A+6 |     |
+// |A+S+R| A+S | A+V | A+B |A+S+C| A+R |         | ESC | A+1 | A+2 | A+3 |     |     |
+//                   |A+S+F|A+S+B|(hld)|         |SHFT |BSPC | ENT |
             bindings = <
-            &kp LA(TAB) &kp LA(D)   &kp LA(E)   &kp LA(F)   &kp LA(W)       &none       &kp LA(N7)  &kp LA(N8)  &kp LA(N9)  &kp DEL
-            &kp LA(H)   &kp LA(J)   &kp LA(K)   &kp LA(L)   &kp LA(RET)     &none       &kp LA(N4)  &kp LA(N5)  &kp LA(N6)  &kp BSPC
-    &trans  &kp LA(LS(C)) &kp LA(V) &kp LA(B)   &kp LA(S)   &kp LA(LS(B))   &none       &kp LA(N1)  &kp LA(N2)  &kp LA(N3)  &kp ESC     &mo MEDIA
-                                    &kp LA(LS(SPACE)) &kp LSHFT &trans        &kp LSHFT   &kp BSPC    &kp RET
+            &kp LA(TAB) &kp LA(D)   &kp LA(RET) &kp LA(F)   &kp LA(W)       &kp DEL     &kp LA(N7)  &kp LA(N8)  &kp LA(N9)  &none
+            &kp LA(H)   &kp LA(J)   &kp LA(K)   &kp LA(L)   &kp LA(E)       &kp BSPC    &kp LA(N4)  &kp LA(N5)  &kp LA(N6)  &none
+    &kp LA(LS(R)) &kp LA(S) &kp LA(V) &kp LA(B) &kp LA(LS(C)) &kp LA(R)     &kp ESC     &kp LA(N1)  &kp LA(N2)  &kp LA(N3)  &none       &none
+                                    &kp LA(LS(SPACE)) &kp LA(LS(B)) &trans    &kp LSHFT   &kp BSPC    &kp RET
             >;
         };
 
@@ -158,58 +98,40 @@
 //       |  !  |  @  |  #  |  $  |  %  |         |  ;  |  :  |  =  |  +  |  -  |
 //       |  `  |  <  |  {  |  [  |  (  |         |  )  |  ]  |  }  |  >  |  '  |
 // |     |  ~  |  ^  |  &  |  *  |  _  |         |  \  |  |  |  /  |  ?  |  "  |     |
-//                   |     |     |     |         | BSPC| DEL |     |
+//                   |     |     |     |         |(hld)| DEL |     |
             bindings = <
             &kp EXCL    &kp AT      &kp HASH    &kp DLLR    &kp PRCNT       &kp SEMI    &kp COLON   &kp EQUAL   &kp PLUS    &kp MINUS
             &kp GRAVE   &kp LT      &kp LBRC    &kp LBKT    &kp LPAR        &kp RPAR    &kp RBKT    &kp RBRC    &kp GT      &kp SQT
-    &trans  &kp TILDE   &kp CARET   &kp AMPS    &kp ASTRK   &kp UNDER       &kp BSLH    &kp PIPE    &kp FSLH    &kp QMARK   &kp DQT     &trans
-                                    &trans      &trans      &trans          &kp BSPC    &kp DEL     &trans
+    &none   &kp TILDE   &kp CARET   &kp AMPS    &kp ASTRK   &kp UNDER       &kp BSLH    &kp PIPE    &kp FSLH    &kp QMARK   &kp DQT     &none
+                                    &trans      &trans      &trans          &trans      &kp DEL     &trans
             >;
         };
 
         num_layer {
 // -----------------------------------------------------------------------------------------
-//       | TAB | HOME|  UP | END | PGUP|         |  /  |  7  |  8  |  9  |  *  |
-//       | GUI | ALT | CTRL| SHFT| PGDN|         |  -  |  4  |  5  |  6  |  +  |
-// |     |     | LEFT| DOWN| RGHT|     |         |  0  |  1  |  2  |  3  |  =  |     |
-//                   |  .  |  ,  |     |         | ENT | BSPC|  .  |
+//       | TAB |HOME | UP  | END |PG_UP|         |  /  |  7  |  8  |  9  |  *  |
+//       | GUI | ALT | CTL | SHF | TAB |         |  -  |  4  |  5  |  6  |  +  |
+// |     |     |LEFT |DOWN |RIGHT|     |         |  0  |  1  |  2  |  3  |  =  |     |
+//                   |  .  |  ,  |     |         | ENT |(hld)|  .  |
             bindings = <
             &kp TAB     &kp HOME    &kp UP      &kp END     &kp PG_UP       &kp FSLH    &kp N7      &kp N8      &kp N9      &kp ASTRK
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &kp PG_DN       &kp MINUS   &kp N4      &kp N5      &kp N6      &kp PLUS
-    &trans  &trans      &kp LEFT    &kp DOWN    &kp RIGHT   &trans          &kp N0      &kp N1      &kp N2      &kp N3      &kp EQUAL   &mo MEDIA
-                                    &kp DOT     &kp COMMA   &trans          &kp RET     &kp BSPC    &kp DOT
+            &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &kp TAB         &kp MINUS   &kp N4      &kp N5      &kp N6      &kp PLUS
+    &none   &none       &kp LEFT    &kp DOWN    &kp RIGHT   &none           &kp N0      &kp N1      &kp N2      &kp N3      &kp EQUAL   &none
+                                    &kp DOT     &kp COMMA   &trans          &kp RET     &trans      &kp DOT
             >;
         };
 
         media_layer {
 // -----------------------------------------------------------------------------------------
-// Mouse + media + Bluetooth
-// L/R click flank mouse-up, media on right bottom row, prev/play/next on thumbs
-//       | BOOT| BT0 | BT1 | BT2 | BT3 |         |SCRL_U| LCLK|MS_UP| RCLK| MCLK|
-//       | GUI | ALT | CTRL| SHFT| BT4 |         |SCRL_D| MS_L|MS_DN| MS_R|PSCRN|
-// |     |BTCLR|     |     |     |     |         | MUTE | VOL-| VOL+| BRI-| BRI+|     |
-//                   |     |     |     |         | PREV | PLAY| NEXT|
+//       |BOOT | BT0 | BT1 | BT2 | BT3 |         |SCR_U|LCLK |MS_U |RCLK |MCLK |
+//       | GUI | ALT | CTL | SHF | BT4 |         |SCR_D|MS_L |MS_D |MS_R |PSCRN|
+// |     |BTCLR|     |     |     |     |         |MUTE |VOL- |VOL+ |BRI- |BRI+ |     |
+//                   |(hld)|     |     |         |PREV |PLAY |NEXT |
             bindings = <
-            &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3    &msc SCRL_UP   &mkp LCLK   &mmi_up         &mkp RCLK   &mkp MCLK
-            &sk LGUI    &sk LALT     &sk LCTRL    &sk LSHFT    &bt BT_SEL 4    &msc SCRL_DOWN &mmi_left   &mmi_down       &mmi_right      &kp PSCRN
-    &trans  &bt BT_CLR  &trans       &trans       &trans       &trans          &kp C_MUTE     &kp C_VOL_DN &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP &trans
-                                     &trans       &trans       &trans          &kp C_PREV     &kp C_PP    &kp C_NEXT
-            >;
-        };
-
-        navlh_layer {
-// -----------------------------------------------------------------------------------------
-// Left-hand navigation - toggle layer for one-handed nav while using mouse
-// Arrows and nav on left hand, one-shot mods on right hand
-//       |TO(0)| HOME|  UP | END | PGUP|         |     |     |     |     |     |
-//       | SPC | LEFT| DOWN| RGHT| PGDN|         |     | SHFT| CTRL| ALT | GUI |
-// |     | DEL | TAB | ENT | BSPC| ESC |         |     |     |     |     |     |     |
-//                   |TO(0)|TO(0)|     |         | ENT | BSPC|     |
-            bindings = <
-            &tog NAVLH  &kp HOME    &kp UP      &kp END     &kp PG_UP       &trans      &trans      &trans      &trans      &trans
-            &kp SPACE   &kp LEFT    &kp DOWN    &kp RIGHT   &kp PG_DN       &trans      &sk LSHFT   &sk LCTRL   &sk LALT    &sk LGUI
-    &trans  &kp DEL     &kp TAB     &kp RET     &kp BSPC    &kp ESC         &trans      &trans      &trans      &trans      &trans      &trans
-                                    &tog NAVLH  &tog NAVLH  &trans          &kp RET     &kp BSPC    &trans
+            &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3  &msc SCRL_UP &mkp LCLK  &mmi_up    &mkp RCLK   &mkp MCLK
+            &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &bt BT_SEL 4    &msc SCRL_DOWN &mmi_left &mmi_down  &mmi_right  &kp PSCRN
+    &none   &bt BT_CLR  &none       &none       &none       &none           &kp C_MUTE  &kp C_VOL_DN &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP &none
+                                    &trans      &trans      &trans          &kp C_PREV  &kp C_PP    &kp C_NEXT
             >;
         };
     };
