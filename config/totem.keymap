@@ -11,8 +11,8 @@
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 #include <dt-bindings/zmk/pointing.h>
 
-// Inertia mouse movement (QMK-style)
 #include <behaviors/inertia.dtsi>
+#include <dt-bindings/zmk/mouse.h>
 
 #define BASE   0
 #define FUN    1
@@ -20,8 +20,6 @@
 #define SYM    3
 #define NUM    4
 #define MEDIA  5
-#define NAVWIN 6
-#define NAVLH  7
 
 &mt {
     quick-tap-ms = <100>;
@@ -36,39 +34,6 @@
     acceleration-exponent = <2>;
 };
 
-// Inertia mouse settings (matching QMK config)
-&mmi_up {
-    delay-ms = <0>;
-    interval-ms = <8>;
-    time-to-max = <64>;
-    max-speed = <40>;
-    friction = <1>;
-    move-delta = <1>;
-};
-&mmi_down {
-    delay-ms = <0>;
-    interval-ms = <8>;
-    time-to-max = <64>;
-    max-speed = <40>;
-    friction = <1>;
-    move-delta = <1>;
-};
-&mmi_left {
-    delay-ms = <0>;
-    interval-ms = <8>;
-    time-to-max = <64>;
-    max-speed = <40>;
-    friction = <1>;
-    move-delta = <1>;
-};
-&mmi_right {
-    delay-ms = <0>;
-    interval-ms = <8>;
-    time-to-max = <64>;
-    max-speed = <40>;
-    friction = <1>;
-    move-delta = <1>;
-};
 
 / {
     behaviors {
@@ -86,62 +51,28 @@
     combos {
         compatible = "zmk,combos";
 
-        // Q+W → Escape (existing)
-        combo_esc {
-            timeout-ms = <50>;
-            key-positions = <0 1>;
-            bindings = <&kp ESC>;
-        };
-
-        // N+E+I → sticky Cmd (right home row roll, Mac primary modifier)
-        combo_nei_cmd {
+        combo_sticky_cmd {
             timeout-ms = <50>;
             key-positions = <16 17 18>;
             bindings = <&sk LGUI>;
         };
 
-        // Comma+Dot → Semicolon
         combo_semicolon {
             timeout-ms = <50>;
             key-positions = <28 29>;
             bindings = <&kp SEMI>;
         };
 
-        // H+Comma → Hyphen/Minus
         combo_hyphen {
             timeout-ms = <50>;
             key-positions = <27 28>;
             bindings = <&kp MINUS>;
         };
 
-        // X+D → sticky Ctrl (left hand)
-        combo_xd_ctrl {
-            timeout-ms = <50>;
-            key-positions = <22 24>;
-            bindings = <&sk LCTRL>;
-        };
-
-        // D+H → sticky Ctrl (cross-hand)
-        combo_dh_ctrl {
-            timeout-ms = <50>;
-            key-positions = <24 27>;
-            bindings = <&sk LCTRL>;
-        };
-
-        // Z+D → Tab
         combo_tab {
             timeout-ms = <50>;
             key-positions = <21 24>;
             bindings = <&kp TAB>;
-        };
-
-        // PRV_TAB + NXT_TAB → Select All (only in NAV layer)
-        // Positions 1 and 3 are PRV_TAB and NXT_TAB in NAV layer
-        combo_select_all {
-            timeout-ms = <50>;
-            key-positions = <1 3>;
-            bindings = <&kp LG(A)>;
-            layers = <NAV>;
         };
     };
 
@@ -151,46 +82,42 @@
         base_layer {
 // -----------------------------------------------------------------------------------------
 //       |  Q  |  W  |  F  |  P  |  B  |         |  J  |  L  |  U  |  Y  |  ;  |
-//       |  A  |  R  |  S  |  T  |  G  |         |  M  |  N  |  E  |  I  |  O  |
-// |ESC  |  Z  |  X  |  C  |  D  |  V  |         |  K  |  H  |  ,  |  .  |  /  | ENT |
-// |CTRL |                                                                     |     |
-//                   | FUN | NUM |SPC  |         |SHIFT| NAV | SYM |
-//                   |     |     |NAV  |         | (os)|     |     |
-// Note: O key is layer-tap for MEDIA (hold O = MEDIA, tap O = O)
+//       |A/GUI|R/ALT|S/CTL|T/SHF|  G  |         |  M  |N/SHF|E/CTL|I/ALT|O/GUI|
+// |     |  Z  |  X  |  C  |  D  |  V  |         |  K  |  H  |  ,  |  .  |  /  |     |
+//                   |ESC/M|TAB/F|SPC/N|         |ENT/S|BSP/N| DEL |
             bindings = <
-            &kp Q           &kp W       &kp F       &kp P       &kp B           &kp J       &kp L       &kp U       &kp Y       &kp SEMI
-            &kp A           &kp R       &kp S       &kp T       &kp G           &kp M       &kp N       &kp E       &kp I       &lt MEDIA O
- &mt LCTRL ESC &kp Z        &kp X       &kp C       &kp D       &kp V           &kp K       &kp H       &kp COMMA   &kp DOT     &kp FSLH    &kp RET
-                                    &mo FUN     &mo NUM     &ltr NAV SPACE      &sk LSHFT   &mo NAV     &mo SYM
+            &kp Q       &kp W       &kp F       &kp P       &kp B           &kp J       &kp L       &kp U       &kp Y       &kp SEMI
+            &mt LGUI A  &mt LALT R  &mt LCTRL S &mt LSHFT T &kp G           &kp M       &mt RSHFT N &mt RCTRL E &mt RALT I  &mt RGUI O
+    &none   &kp Z       &kp X       &kp C       &kp D       &kp V           &kp K       &kp H       &kp COMMA   &kp DOT     &kp FSLH    &none
+                                    &lt MEDIA ESC &lt FUN TAB &ltr NAV SPACE &lt SYM RET &ltr NUM BSPC &kp RSHFT
             >;
         };
 
         fun_layer {
 // -----------------------------------------------------------------------------------------
-//       |  1  |  2  |  3  |  4  |  5  |         |NAVLH|  F7 |  F8 |  F9 | F12 |
-//       | GUI | ALT | CTRL| SHFT|     |         | PSCR|  F4 |  F5 |  F6 | F11 |
-// |     |  6  |  7  |  8  |  9  |  0  |         | PAUS|  F1 |  F2 |  F3 | F10 |     |
-//                   |     |     |     |         |     | CAPS|     |
+//       |SW_WN|PV_TB|CL_WN|NX_TB|SW_AP|         | F12 | F7  | F8  | F9  |     |
+//       | GUI | ALT | CTL | SHF | TAB |         | F11 | F4  | F5  | F6  |PSCRN|
+// |     |UNDO | CUT |COPY |PASTE|REDO |         | F10 | F1  | F2  | F3  |PAUSE|     |
+//                   |     |(hld)|     |         |     |CAPS |     |
             bindings = <
-            &kp N1      &kp N2      &kp N3      &kp N4      &kp N5          &tog NAVLH  &kp F7      &kp F8      &kp F9      &kp F12
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &trans          &kp PSCRN   &kp F4      &kp F5      &kp F6      &kp F11
-    &trans  &kp N6      &kp N7      &kp N8      &kp N9      &kp N0          &kp PAUSE_BREAK &kp F1  &kp F2      &kp F3      &kp F10     &mo MEDIA
+            &kp LG(GRAVE) &kp LG(LS(LBKT)) &kp LG(W) &kp LG(LS(RBKT)) &kp LG(TAB)  &kp F12     &kp F7      &kp F8      &kp F9      &none
+            &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &kp TAB         &kp F11     &kp F4      &kp F5      &kp F6      &kp PSCRN
+    &none   &kp LG(Z)   &kp LG(X)   &kp LG(C)   &kp LG(V)   &kp LG(LS(Z))  &kp F10     &kp F1      &kp F2      &kp F3      &kp PAUSE_BREAK &none
                                     &trans      &trans      &trans          &trans      &kp CAPS    &trans
             >;
         };
 
         nav_layer {
 // -----------------------------------------------------------------------------------------
-// Mac-style navigation with window/tab management
-//       |SWWIN|PVTAB|CLWIN|NXTAB|SWAPP|         | PGUP| HOME|  UP | END |DWRD |
-//       | GUI | ALT | CTRL| SHFT|NAVWN|         | PGDN| LEFT| DOWN| RGHT| SPC |
-// |     | UNDO| CUT | COPY| PSTE| REDO|         | ESC | BSPC| ENT | TAB | DEL |     |
-//                   |MKLNK|     |NWTAB|         | ENT | BSPC|     |
+//       |A+TAB| A+D |A+RET| A+F | A+W |         | DEL | A+7 | A+8 | A+9 |     |
+//       | A+H | A+J | A+K | A+L | A+E |         |BSPC | A+4 | A+5 | A+6 |     |
+// |A+S+R| A+S | A+V | A+B |A+S+C| A+R |         | ESC | A+1 | A+2 | A+3 |     |     |
+//                   |A+S+F|A+S+B|(hld)|         |SHFT |BSPC | ENT |
             bindings = <
-            &kp LG(GRAVE) &kp LG(LS(LBKT)) &kp LG(W) &kp LG(LS(RBKT)) &kp LG(TAB)    &kp PG_UP   &kp HOME    &kp UP      &kp END     &kp LA(BSPC)
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &sl NAVWIN      &kp PG_DN   &kp LEFT    &kp DOWN    &kp RIGHT   &kp SPACE
-    &trans  &kp LG(Z)   &kp LG(X)   &kp LG(C)   &kp LG(V)   &kp LG(LS(Z))   &kp ESC     &kp BSPC    &kp RET     &kp TAB     &kp DEL     &mo MEDIA
-                                    &kp LG(K)   &trans      &kp LG(T)       &kp RET     &kp BSPC    &trans
+            &kp LA(TAB) &kp LA(D)   &kp LA(RET) &kp LA(F)   &kp LA(W)       &kp DEL     &kp LA(N7)  &kp LA(N8)  &kp LA(N9)  &none
+            &kp LA(H)   &kp LA(J)   &kp LA(K)   &kp LA(L)   &kp LA(E)       &kp BSPC    &kp LA(N4)  &kp LA(N5)  &kp LA(N6)  &none
+    &kp LA(LS(R)) &kp LA(S) &kp LA(V) &kp LA(B) &kp LA(LS(C)) &kp LA(R)     &kp ESC     &kp LA(N1)  &kp LA(N2)  &kp LA(N3)  &none       &none
+                                    &kp LA(LS(SPACE)) &kp LA(LS(B)) &trans    &kp LSHFT   &kp BSPC    &kp RET
             >;
         };
 
@@ -199,74 +126,40 @@
 //       |  !  |  @  |  #  |  $  |  %  |         |  ;  |  :  |  =  |  +  |  -  |
 //       |  `  |  <  |  {  |  [  |  (  |         |  )  |  ]  |  }  |  >  |  '  |
 // |     |  ~  |  ^  |  &  |  *  |  _  |         |  \  |  |  |  /  |  ?  |  "  |     |
-//                   |     |     |     |         | BSPC| DEL |     |
+//                   |     |     |     |         |(hld)| DEL |     |
             bindings = <
             &kp EXCL    &kp AT      &kp HASH    &kp DLLR    &kp PRCNT       &kp SEMI    &kp COLON   &kp EQUAL   &kp PLUS    &kp MINUS
             &kp GRAVE   &kp LT      &kp LBRC    &kp LBKT    &kp LPAR        &kp RPAR    &kp RBKT    &kp RBRC    &kp GT      &kp SQT
-    &trans  &kp TILDE   &kp CARET   &kp AMPS    &kp ASTRK   &kp UNDER       &kp BSLH    &kp PIPE    &kp FSLH    &kp QMARK   &kp DQT     &trans
-                                    &trans      &trans      &trans          &kp BSPC    &kp DEL     &trans
+    &none   &kp TILDE   &kp CARET   &kp AMPS    &kp ASTRK   &kp UNDER       &kp BSLH    &kp PIPE    &kp FSLH    &kp QMARK   &kp DQT     &none
+                                    &trans      &trans      &trans          &trans      &kp DEL     &trans
             >;
         };
 
         num_layer {
 // -----------------------------------------------------------------------------------------
-//       | TAB | HOME|  UP | END | PGUP|         |  /  |  7  |  8  |  9  |  *  |
-//       | GUI | ALT | CTRL| SHFT| PGDN|         |  -  |  4  |  5  |  6  |  +  |
-// |     |     | LEFT| DOWN| RGHT|     |         |  0  |  1  |  2  |  3  |  =  |     |
-//                   |  .  |  ,  |     |         | ENT | BSPC|  .  |
+//       | TAB |HOME | UP  | END |PG_UP|         |  /  |  7  |  8  |  9  |  *  |
+//       | GUI | ALT | CTL | SHF | TAB |         |  -  |  4  |  5  |  6  |  +  |
+// |     |     |LEFT |DOWN |RIGHT|     |         |  0  |  1  |  2  |  3  |  =  |     |
+//                   |  .  |  ,  |     |         | ENT |(hld)|  .  |
             bindings = <
             &kp TAB     &kp HOME    &kp UP      &kp END     &kp PG_UP       &kp FSLH    &kp N7      &kp N8      &kp N9      &kp ASTRK
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &kp PG_DN       &kp MINUS   &kp N4      &kp N5      &kp N6      &kp PLUS
-    &trans  &trans      &kp LEFT    &kp DOWN    &kp RIGHT   &trans          &kp N0      &kp N1      &kp N2      &kp N3      &kp EQUAL   &mo MEDIA
-                                    &kp DOT     &kp COMMA   &trans          &kp RET     &kp BSPC    &kp DOT
+            &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &kp TAB         &kp MINUS   &kp N4      &kp N5      &kp N6      &kp PLUS
+    &none   &none       &kp LEFT    &kp DOWN    &kp RIGHT   &none           &kp N0      &kp N1      &kp N2      &kp N3      &kp EQUAL   &none
+                                    &kp DOT     &kp COMMA   &trans          &kp RET     &trans      &kp DOT
             >;
         };
 
         media_layer {
 // -----------------------------------------------------------------------------------------
-// Based on QMK _MDIA layer with Bluetooth replacing RGB
-// Uses inertia mouse movement (QMK-style momentum/glide)
-//       | BOOT| BT0 | BT1 | BT2 | BT3 |         |SCRL_U|PREV |MS_UP|NEXT |PSCRN|
-//       | GUI | ALT | CTRL| SHFT| BT4 |         |SCRL_D|MS_L |MS_DN|MS_R |BRI+ |
-// |     |BTCLR|     |     |     |     |         | MUTE | VOL-| PLAY| VOL+|BRI- |     |
-//                   |     |     |     |         | LCLK | RCLK| MCLK|
+//       |BOOT | BT0 | BT1 | BT2 | BT3 |         |SCR_U|LCLK |MS_U |RCLK |MCLK |
+//       | GUI | ALT | CTL | SHF | BT4 |         |SCR_D|MS_L |MS_D |MS_R |PSCRN|
+// |     |BTCLR|     |     |     |     |         |MUTE |VOL- |VOL+ |BRI- |BRI+ |     |
+//                   |(hld)|     |     |         |PREV |PLAY |NEXT |
             bindings = <
-            &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3    &msc SCRL_UP   &kp C_PREV  &mmi_up    &kp C_NEXT  &kp PSCRN
-            &sk LGUI    &sk LALT     &sk LCTRL    &sk LSHFT    &bt BT_SEL 4    &msc SCRL_DOWN &mmi_left   &mmi_down  &mmi_right  &kp C_BRI_UP
-    &trans  &bt BT_CLR  &trans       &trans       &trans       &trans          &kp C_MUTE     &kp C_VOL_DN &kp C_PP  &kp C_VOL_UP &kp C_BRI_DN &trans
-                                     &trans       &trans       &trans          &mkp LCLK      &mkp RCLK   &mkp MCLK
-            >;
-        };
-
-        navwin_layer {
-// -----------------------------------------------------------------------------------------
-// One-shot layer for switching to specific windows/apps via Alt+key (Raycast shortcuts)
-// Enter momentarily from NAV layer to switch apps, then return to NAV
-//       | A+Q | A+W | A+F | A+P | A+B |         | A+J | A+7 | A+8 | A+9 | A+' |
-//       | GUI | ALT | CTRL| SHFT|     |         | A+M | A+4 | A+5 | A+6 | A+O |
-// |     | A+Z | A+X | A+C | A+D | A+V |         | A+K | A+1 | A+2 | A+3 | A+/ |     |
-//                   |     |     |     |         |     |     |     |
-            bindings = <
-            &kp LA(Q)   &kp LA(W)   &kp LA(F)   &kp LA(P)   &kp LA(B)       &kp LA(J)   &kp LA(N7)  &kp LA(N8)  &kp LA(N9)  &kp LA(SQT)
-            &sk LGUI    &sk LALT    &sk LCTRL   &sk LSHFT   &trans          &kp LA(M)   &kp LA(N4)  &kp LA(N5)  &kp LA(N6)  &kp LA(O)
-    &trans  &kp LA(Z)   &kp LA(X)   &kp LA(C)   &kp LA(D)   &kp LA(V)       &kp LA(K)   &kp LA(N1)  &kp LA(N2)  &kp LA(N3)  &kp LA(FSLH) &trans
-                                    &trans      &trans      &trans          &trans      &trans      &trans
-            >;
-        };
-
-        navlh_layer {
-// -----------------------------------------------------------------------------------------
-// Left-hand navigation - toggle layer for one-handed nav while using mouse
-// Arrows and nav on left hand, one-shot mods on right hand
-//       |TO(0)| HOME|  UP | END | PGUP|         |     |     |     |     |     |
-//       | SPC | LEFT| DOWN| RGHT| PGDN|         |     | SHFT| CTRL| ALT | GUI |
-// |     | DEL | TAB | ENT | BSPC| ESC |         |     |     |     |     |     |     |
-//                   |TO(0)|TO(0)|     |         | ENT | BSPC|     |
-            bindings = <
-            &tog NAVLH  &kp HOME    &kp UP      &kp END     &kp PG_UP       &trans      &trans      &trans      &trans      &trans
-            &kp SPACE   &kp LEFT    &kp DOWN    &kp RIGHT   &kp PG_DN       &trans      &sk LSHFT   &sk LCTRL   &sk LALT    &sk LGUI
-    &trans  &kp DEL     &kp TAB     &kp RET     &kp BSPC    &kp ESC         &trans      &trans      &trans      &trans      &trans      &trans
-                                    &tog NAVLH  &tog NAVLH  &trans          &kp RET     &kp BSPC    &trans
+            &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3  &msc SCRL_UP &mkp LCLK  &mmi_up    &mkp RCLK   &mkp MCLK
+            &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &bt BT_SEL 4    &msc SCRL_DOWN &mmi_left &mmi_down  &mmi_right  &kp PSCRN
+    &none   &bt BT_CLR  &none       &none       &none       &none           &kp C_MUTE  &kp C_VOL_DN &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP &none
+                                    &trans      &trans      &trans          &kp C_PREV  &kp C_PP    &kp C_NEXT
             >;
         };
     };
